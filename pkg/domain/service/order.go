@@ -85,7 +85,6 @@ func (o *orderService) SetStatus(orderID uuid.UUID, newStatus model.OrderStatus)
 
 	oldStatus := order.Status
 
-	// Проверяем валидность перехода статуса
 	if !isValidTransition(oldStatus, newStatus) {
 		return fmt.Errorf("%w: from %v to %v", ErrInvalidStatusTransition, oldStatus, newStatus)
 	}
@@ -177,7 +176,6 @@ func isValidTransition(from, to model.OrderStatus) bool {
 	case model.Pending:
 		return to == model.Paid || to == model.Cancelled
 	default:
-		// Из Paid и Cancelled выходов нет
 		return false
 	}
 }
